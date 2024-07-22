@@ -80,9 +80,9 @@ export default function Input({
           ${property.InputBoxBorderRadius}  focus:outline-none ${
           hasError
             ? `${property.InputBoxBackgroundColorOnError} ${property.InputBoxBackgroundOpacityOnError} 
-            ${property.InputBoxBorderColorOnError} hover:${property.InputBoxBorderColorOnErrorOnHover}`
+            ${property.InputBoxBorderColorOnError}`
             : `${property.InputBoxBackgroundColor} ${property.InputBoxBackgroundOpacity} 
-            ${property.InputBoxBorderColor} hover:${property.InputBoxBorderColorOnHover}`
+            ${property.InputBoxBorderColor} ${property.InputBoxBorderColorOnHover}`
         } ${
           property.InputBoxTextColor
         } placeholder-transparent transition-all ${
@@ -142,7 +142,7 @@ function EyeIconToggler({ showPassword, togglePasswordVisibility, property }) {
       icon={showPassword ? property.EyeIcon : property.SlashEyeIcon}
       onClick={togglePasswordVisibility}
       className={`absolute ${property.IconPosition} cursor-pointer ${property.IconFontSize} 
-      ${property.IconColor} hover:${property.IconColorOnFocus}`}
+      ${property.IconColor} ${property.IconColorOnFocus}`}
     />
   );
 }

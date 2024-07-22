@@ -2,6 +2,7 @@ import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import DashBoard from "./components/dashboard";
 import InputHandler from "./components/input-component/input-handler";
+import ButtonHandler from "./components/button-component/button-handler";
 
 const router = createBrowserRouter([
   {
@@ -21,12 +22,12 @@ const router = createBrowserRouter([
             // loader: contactLoader,
             // action: contactAction,
           },
-          //   {
-          //     path: "contacts/:contactId/edit",
-          //     element: <EditContact />,
-          //     // loader: contactLoader,
-          //     // action: editAction,
-          //   },
+          {
+            path: "dashboard/button-handler",
+            element: <ButtonHandler />,
+            // loader: contactLoader,
+            // action: editAction,
+          },
           //   {
           //     path: "contacts/:contactId/destroy",
           //     // action: destroyAction,
