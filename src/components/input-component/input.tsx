@@ -1,9 +1,25 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, ChangeEvent, FocusEvent } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./input.css";
 import { InputProperty } from "./input-property";
 
-export default function Input({
+interface InputProps {
+  id?: string;
+  label?: string;
+  type?: string;
+  value: string;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onFocus?: (e: FocusEvent<HTMLInputElement>) => void;
+  onBlur?: (e: FocusEvent<HTMLInputElement>) => void;
+  validationPattern?: RegExp;
+  validationMessage?: string;
+  isRequired?: boolean;
+  hasError?: boolean;
+  property?: InputProperty;
+  [key: string]: any;
+}
+
+const Input: React.FC<InputProps> = ({
   id = "input-field",
   label = "Enter Text:",
   type = "text",
@@ -17,7 +33,7 @@ export default function Input({
   hasError = false,
   property = new InputProperty(),
   ...rest
-}) {
+}) => {
   const [isFocused, setIsFocused] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -41,12 +57,12 @@ export default function Input({
     }
   }, [value, type, validationPattern, validationMessage, isFocused, hasError]);
 
-  const handleFocus = (e) => {
+  const handleFocus = (e: FocusEvent<HTMLInputElement>) => {
     setIsFocused(true);
     if (onFocus) onFocus(e);
   };
 
-  const handleBlur = (e) => {
+  const handleBlur = (e: FocusEvent<HTMLInputElement>) => {
     setIsFocused(false);
     if (onBlur) onBlur(e);
   };
@@ -62,7 +78,7 @@ export default function Input({
           className={`absolute 
             ${property.RequiredStarPosition} 
             ${property.RequiredStarColor} 
-            ${property.RequiredStarSize}`}
+            ${property.RequiredStarFontSize}`}
         >
           *
         </div>
@@ -77,7 +93,7 @@ export default function Input({
         className={`peer px-3 pt-6 pb-2 border focus:${
           property.InputBoxBorderColor
         } 
-          ${property.InputBoxBorderRadius}  focus:outline-none ${
+          ${property.InputBoxBorderRadius} focus:outline-none ${
           hasError
             ? `${property.InputBoxBackgroundColorOnError} ${property.InputBoxBackgroundOpacityOnError} 
             ${property.InputBoxBorderColorOnError}`
@@ -113,9 +129,25 @@ export default function Input({
       </ErrorRenderer>
     </div>
   );
+};
+
+interface LabelProps {
+  id: string;
+  isFocused: boolean;
+  value: string;
+  hasError: boolean;
+  children: React.ReactNode;
+  property: InputProperty;
 }
 
-function Label({ id, isFocused, value, hasError, children, property }) {
+const Label: React.FC<LabelProps> = ({
+  id,
+  isFocused,
+  value,
+  hasError,
+  children,
+  property,
+}) => {
   return (
     <label
       htmlFor={id}
@@ -134,9 +166,19 @@ function Label({ id, isFocused, value, hasError, children, property }) {
       {children}
     </label>
   );
+};
+
+interface EyeIconTogglerProps {
+  showPassword: boolean;
+  togglePasswordVisibility: () => void;
+  property: InputProperty;
 }
 
-function EyeIconToggler({ showPassword, togglePasswordVisibility, property }) {
+const EyeIconToggler: React.FC<EyeIconTogglerProps> = ({
+  showPassword,
+  togglePasswordVisibility,
+  property,
+}) => {
   return (
     <FontAwesomeIcon
       icon={showPassword ? property.EyeIcon : property.SlashEyeIcon}
@@ -145,18 +187,32 @@ function EyeIconToggler({ showPassword, togglePasswordVisibility, property }) {
       ${property.IconColor} ${property.IconColorOnFocus}`}
     />
   );
+};
+
+interface IconProps {
+  property: InputProperty;
 }
 
-function Icon({ property }) {
+const Icon: React.FC<IconProps> = ({ property }) => {
   return (
     <FontAwesomeIcon
       icon={property.Icon}
       className={`absolute ${property.IconPosition} ${property.IconFontSize} ${property.IconColor}`}
     />
   );
+};
+
+interface ErrorRendererProps {
+  show: boolean;
+  children: React.ReactNode;
+  property: InputProperty;
 }
 
-function ErrorRenderer({ show, children, property }) {
+const ErrorRenderer: React.FC<ErrorRendererProps> = ({
+  show,
+  children,
+  property,
+}) => {
   return (
     <div
       className={`absolute ${
@@ -172,4 +228,6 @@ function ErrorRenderer({ show, children, property }) {
       </p>
     </div>
   );
-}
+};
+
+export default Input;

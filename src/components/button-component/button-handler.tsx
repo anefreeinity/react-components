@@ -1,8 +1,9 @@
+import React from "react";
 import Button from "./button";
 
-export default function ButtonHandler() {
+const ButtonHandler: React.FC = () => {
   const handleClick = () => {
-    //alert("Button clicked!");
+    alert("Button clicked!");
   };
 
   return (
@@ -10,4 +11,6 @@ export default function ButtonHandler() {
       <Button onClick={handleClick}>Click Me</Button>
     </div>
   );
-}
+};
+
+export default ButtonHandler;

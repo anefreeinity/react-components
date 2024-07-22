@@ -1,13 +1,23 @@
+import React, { MouseEventHandler } from "react";
 import "./button.css";
 
-export default function Button({
+interface ButtonProps {
+  children: React.ReactNode;
+  onClick?: MouseEventHandler<HTMLButtonElement>;
+  type?: "button" | "submit" | "reset";
+  className?: string;
+  disabled?: boolean;
+  [key: string]: any;
+}
+
+const Button: React.FC<ButtonProps> = ({
   children,
   onClick,
   type = "button",
   className = "",
   disabled = false,
   ...props
-}) {
+}) => {
   return (
     <button
       type={type}
@@ -24,4 +34,6 @@ export default function Button({
       {children}
     </button>
   );
-}
+};
+
+export default Button;

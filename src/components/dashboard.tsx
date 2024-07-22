@@ -1,6 +1,7 @@
+import React from "react";
 import { NavLink, Outlet } from "react-router-dom";
 
-export default function DashBoard() {
+const DashBoard: React.FC = () => {
   return (
     <div className="h-screen w-screen justify-center items-center">
       <div className="flex flex-row gap-4 h-1/6 bg-gray-300 justify-center items-center">
@@ -20,9 +21,11 @@ export default function DashBoard() {
       </div>
       <div className="flex flex-col h-5/6 justify-center items-center bg-slate-900">
         <div className="flex flex-col w-1/3 justify-center items-center">
-          <Outlet></Outlet>
+          <Outlet />
         </div>
       </div>
     </div>
   );
-}
+};
+
+export default DashBoard;

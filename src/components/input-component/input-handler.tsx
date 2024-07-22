@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useState, ChangeEvent } from "react";
 import Input from "./input";
 import { InputProperty, InputType } from "./input-property";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 
-export default function InputHandler() {
-  const [emailValue, setEmailValue] = useState("");
-  const [passwordValue, setPasswordValue] = useState("");
+const InputHandler: React.FC = () => {
+  const [emailValue, setEmailValue] = useState<string>("");
+  const [passwordValue, setPasswordValue] = useState<string>("");
 
   const emailProperty = new InputProperty();
   const passwordProperty = new InputProperty();
@@ -14,6 +14,14 @@ export default function InputHandler() {
   emailProperty.Icon = faEnvelope;
   passwordProperty.InputType = InputType.Password;
 
+  const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setEmailValue(e.target.value);
+  };
+
+  const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setPasswordValue(e.target.value);
+  };
+
   return (
     <div className="w-full">
       <div className="pb-12">
@@ -21,7 +29,7 @@ export default function InputHandler() {
           id="email-input"
           type="email"
           value={emailValue}
-          onChange={(e) => setEmailValue(e.target.value)}
+          onChange={handleEmailChange}
           validationPattern={/^[^\s@]+@[^\s@]+\.[^\s@]+$/}
           validationMessage="Please enter a valid email address."
           label="Email Address"
@@ -35,7 +43,7 @@ export default function InputHandler() {
           id="password-input"
           type="password"
           value={passwordValue}
-          onChange={(e) => setPasswordValue(e.target.value)}
+          onChange={handlePasswordChange}
           validationPattern={
             /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
           }
@@ -47,4 +55,6 @@ export default function InputHandler() {
       </div>
     </div>
   );
-}
+};
+
+export default InputHandler;
