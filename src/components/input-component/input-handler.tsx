@@ -1,7 +1,7 @@
 import { useState, ChangeEvent } from "react";
 import Input from "./input";
-import { InputProperty, InputType } from "./input-property";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import { InputProperty, InputType } from "./input-property";
 
 const InputHandler: React.FC = () => {
   const [emailValue, setEmailValue] = useState<string>("");

@@ -181,7 +181,7 @@ const EyeIconToggler: React.FC<EyeIconTogglerProps> = ({
 }) => {
   return (
     <FontAwesomeIcon
-      icon={showPassword ? property.EyeIcon : property.SlashEyeIcon}
+      icon={showPassword ? property.EyeIcon! : property.SlashEyeIcon!}
       onClick={togglePasswordVisibility}
       className={`absolute ${property.IconPosition} cursor-pointer ${property.IconFontSize} 
       ${property.IconColor} ${property.IconColorOnFocus}`}
@@ -196,7 +196,7 @@ interface IconProps {
 const Icon: React.FC<IconProps> = ({ property }) => {
   return (
     <FontAwesomeIcon
-      icon={property.Icon}
+      icon={property.Icon!}
       className={`absolute ${property.IconPosition} ${property.IconFontSize} ${property.IconColor}`}
     />
   );
