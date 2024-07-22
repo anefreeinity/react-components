@@ -20,7 +20,7 @@ const DashBoard: React.FC = () => {
         </NavLink>
       </div>
       <div className="flex flex-col h-5/6 justify-center items-center bg-slate-900">
-        <div className="flex flex-col w-1/3 justify-center items-center">
+        <div className="flex flex-col w-10/12 lg:w-1/3 md:w-1/2 justify-center items-center">
           <Outlet />
         </div>
       </div>
