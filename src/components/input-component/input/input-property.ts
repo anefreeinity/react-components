@@ -16,6 +16,7 @@ export interface IInputProperty {
   RequiredStarPosition: string;
   RequiredStarColor: string;
   RequiredStarFontSize: string;
+  // InputBoxBackgroundColorOnFocus: string;
   InputBoxBackgroundColor: string;
   InputBoxBackgroundColorOnError: string;
   InputBoxBorderColor: string;

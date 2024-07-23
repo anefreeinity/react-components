@@ -1,11 +1,11 @@
 import React from "react";
-import Button from "./button";
+import Button from "./button/button";
 import {
   ButtonProperty,
   ButtonType,
   IButtonProperty,
   IconLeftOrRight,
-} from "./button-property";
+} from "./button/button-property";
 import {
   faEdit,
   faFileExport,
