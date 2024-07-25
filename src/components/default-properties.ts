@@ -24,6 +24,7 @@ export const DEFAULTPROPERTIES = {
   ErrorMessageFontSize: "text-xs",
   ErrorMessagePosition: "left-0 top-full",
   TransitionDuration: "duration-300",
+  Shadow: "shadow-md",
 };
 
 export default DEFAULTPROPERTIES;

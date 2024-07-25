@@ -10,6 +10,7 @@ import {
   faExpand,
   faSmile,
   faSmileBeam,
+  faSmileWink,
 } from "@fortawesome/free-solid-svg-icons";
 
 const DashBoard: React.FC = () => {
@@ -51,6 +52,24 @@ const DashBoard: React.FC = () => {
   buttonButton.Icon = faSmileBeam;
   buttonButton.IconColor = "text-gray-200";
 
+  const snackbarButton: IButtonProperty = new ButtonProperty();
+  snackbarButton.ButtonBackgroundColor = "bg-yellow-600";
+  snackbarButton.ButtonBackgroundOpacity = "bg-opacity-30";
+  snackbarButton.ButtonBackgroundOpacityOnHover = "hover:bg-opacity-100";
+  snackbarButton.ButtonBorderColor = "border-yellow-500";
+  snackbarButton.ButtonBorderColorOnHover = "hover:border-yellow-300";
+  snackbarButton.ButtonBorderColorOnFocus = "focus:border-yellow-200";
+  snackbarButton.ButtonTextColor = "text-gray-200";
+  snackbarButton.ButtonTextColorOnHover = "hover:text-white";
+  snackbarButton.ButtonTextColorOnDisabled = "disabled:text-gray-500";
+  snackbarButton.ButtonShadow = "shadow-lg";
+  snackbarButton.ButtonBackgroundColorOnFocus = "focus:bg-yellow-700";
+  snackbarButton.ButtonBackgroundOpacityOnFocus = "focus:bg-opacity-80";
+  snackbarButton.ButtonBorderWidth = "border-2";
+  snackbarButton.ButtonBackgroundColorOnHover = "hover:bg-yellow-600";
+  snackbarButton.Icon = faSmileWink;
+  snackbarButton.IconColor = "text-gray-200";
+
   const fsButton: IButtonProperty = new ButtonProperty();
   fsButton.Icon = faExpand;
 
@@ -88,7 +107,7 @@ const DashBoard: React.FC = () => {
       ref={elementRef}
       className="h-screen w-screen justify-center items-center"
     >
-      <div className="flex flex-row gap-4 h-1/6 bg-gray-800 justify-center items-center">
+      <div className="flex flex-row gap-4 h-1/6 w-full overflow-x-auto bg-gray-800 justify-center items-center">
         <NavLink to="dashboard/input-handler">
           <Button property={inputButton}>Input Examples</Button>
         </NavLink>
@@ -96,6 +115,10 @@ const DashBoard: React.FC = () => {
         <NavLink to="dashboard/button-handler">
           {" "}
           <Button property={buttonButton}>Button Examples</Button>
+        </NavLink>
+
+        <NavLink to="dashboard/snackbar-handler">
+          <Button property={snackbarButton}>Snackbar Examples</Button>
         </NavLink>
       </div>
       <div className="flex flex-col h-5/6 justify-center items-center bg-slate-900">

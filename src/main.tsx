@@ -2,6 +2,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import DashBoard from "./components/dashboard";
 import InputHandler from "./components/input-component/input-handler";
 import ButtonHandler from "./components/button-component/button-handler";
+import SnackbarHandler from "./components/snackbar-component/snackbar-handler";
 
 const router = createBrowserRouter([
   {
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
           {
             path: "dashboard/button-handler",
             element: <ButtonHandler />,
+          },
+          {
+            path: "dashboard/snackbar-handler",
+            element: <SnackbarHandler />,
           },
         ],
       },
