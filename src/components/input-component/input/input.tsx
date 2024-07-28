@@ -24,6 +24,7 @@ interface InputProps {
   validationMessage?: string;
   isRequired?: boolean;
   hasError?: boolean;
+  setError?: (error: boolean) => void;
   property?: IInputProperty;
   className?: string;
   autoFillBoxBackgroundColor?: string;
@@ -44,6 +45,7 @@ const Input: React.FC<InputProps> = ({
   validationMessage = "",
   isRequired = false,
   hasError = false,
+  setError = () => {},
   property = new InputProperty(),
   className = "",
   autoFillBoxBackgroundColor = "rgba(17, 24, 39, 1)",
@@ -57,23 +59,12 @@ const Input: React.FC<InputProps> = ({
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (isFocused) {
-      if (validationPattern) {
-        const isValid = validationPattern.test(value);
-        if (isValid) {
-          setErrorMessage("");
-        } else {
-          setErrorMessage(validationMessage);
-        }
-      } else {
-        setErrorMessage("");
-      }
-    } else {
+    if (isFocused && hasError) {
       if (hasError) {
         validationMessage && setErrorMessage(validationMessage);
       }
     }
-  }, [value, type, validationPattern, validationMessage, isFocused, hasError]);
+  }, [validationMessage, isFocused, hasError]);
 
   useEffect(() => {
     const handleAutofill = (e: AnimationEvent) => {
@@ -97,14 +88,27 @@ const Input: React.FC<InputProps> = ({
     };
   }, []);
 
+  const handleValidation = (e: FocusEvent<HTMLInputElement>) => {
+    if (validationPattern && !validationPattern.test(e.target.value)) {
+      setErrorMessage(validationMessage);
+      setError(true);
+    } else {
+      setErrorMessage("");
+      setError(false);
+    }
+  };
+
   const handleFocus = (e: FocusEvent<HTMLInputElement>) => {
     setIsFocused(true);
     if (onFocus) onFocus(e);
+    setErrorMessage("");
+    setError(false);
   };
 
   const handleBlur = (e: FocusEvent<HTMLInputElement>) => {
     setIsFocused(false);
     if (onBlur) onBlur(e);
+    handleValidation(e);
   };
 
   const togglePasswordVisibility = () => {
@@ -116,7 +120,7 @@ const Input: React.FC<InputProps> = ({
   } 
           ${property.InputBoxBorderRadius} focus:outline-none ${
     hasError
-      ? `${property.InputBoxBackgroundColorOnError} ${property.InputBoxBackgroundOpacityOnError} 
+      ? `${property.InputBoxBackgroundColor} ${property.InputBoxBackgroundOpacity} 
             ${property.InputBoxBorderColorOnError}`
       : `${property.InputBoxBackgroundColor} ${property.InputBoxBackgroundOpacity} 
             ${property.InputBoxBorderColor} ${property.InputBoxBorderColorOnHover}`
@@ -202,3 +206,5 @@ const Input: React.FC<InputProps> = ({
 };
 
 export default Input;
+
+//${property.InputBoxBackgroundColorOnError} ${property.InputBoxBackgroundOpacityOnError}
