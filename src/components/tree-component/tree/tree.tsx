@@ -18,7 +18,7 @@ const Tree: React.FC = () => {
   };
 
   return (
-    <div className="w-full h-full overflow-auto" onScroll={handleScroll}>
+    <div className="w-full h-full pb-4 overflow-auto" onScroll={handleScroll}>
       <TreeEngine
         root={root}
         focusedItem={focusedItem}
@@ -75,7 +75,7 @@ const TreeEngine: React.FC<ITreeEngineProps> = ({
         onKeyPress={handleKeyPress}
       >
         {root.isFolder && (
-          <div className="w-5 py-1 hover:bg-slate-700 rounded-md">
+          <div className="w-5 py-1 hover:bg-slate-700 rounded-l-md">
             <FontAwesomeIcon
               className="text-slate-400 text-xs w-full"
               icon={showChildren ? faChevronDown : faChevronRight}
