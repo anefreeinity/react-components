@@ -6,6 +6,7 @@ import SnackbarHandler from "./components/snackbar-component/snackbar-handler";
 import FormHandler, {
   action as formAction,
 } from "./components/form-component/form-handler";
+import TreeHandler from "./components/tree-component/tree-handler";
 
 const router = createBrowserRouter([
   {
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
             path: "dashboard/form-handler",
             element: <FormHandler />,
             action: formAction,
+          },
+          {
+            path: "dashboard/tree-handler",
+            element: <TreeHandler />,
           },
         ],
       },

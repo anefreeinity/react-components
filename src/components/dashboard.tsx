@@ -124,6 +124,10 @@ const DashBoard: React.FC = () => {
         <NavLink to="dashboard/form-handler">
           <Button property={snackbarButton}>Form Examples</Button>
         </NavLink>
+
+        <NavLink to="dashboard/tree-handler">
+          <Button property={snackbarButton}>Tree Examples</Button>
+        </NavLink>
       </div>
       <div className="flex flex-col h-5/6 justify-center items-center bg-slate-900">
         <div className="flex flex-col w-10/12 lg:w-1/3 md:w-1/2 justify-center items-center">
