@@ -7,6 +7,8 @@ import FormHandler, {
   action as formAction,
 } from "./components/form-component/form-handler";
 import TreeHandler from "./components/tree-component/tree-handler";
+import Autocomplete from "./components/autocomplete-component/autocomplete/autocomplete";
+import AutocompleteHandler from "./components/autocomplete-component/autocomplete-handler";
 
 const router = createBrowserRouter([
   {
@@ -36,6 +38,10 @@ const router = createBrowserRouter([
           {
             path: "dashboard/tree-handler",
             element: <TreeHandler />,
+          },
+          {
+            path: "dashboard/autocomplete-handler",
+            element: <AutocompleteHandler />,
           },
         ],
       },

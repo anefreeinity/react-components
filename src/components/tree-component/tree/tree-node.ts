@@ -6,6 +6,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 export interface ITreeNode {
+  id: number;
   children: ITreeNode[];
   icon: IconDefinition | null;
   iconOnClick: IconDefinition | null;
@@ -15,6 +16,7 @@ export interface ITreeNode {
 }
 
 export class TreeNode implements ITreeNode {
+  id: number;
   children: ITreeNode[] = [];
   icon: IconDefinition | null = faFolder;
   iconOnClick: IconDefinition | null = faFolderOpen;
@@ -23,6 +25,7 @@ export class TreeNode implements ITreeNode {
   isFolder: boolean = true;
 
   constructor(
+    id: number = 0,
     name: string = "name",
     icon: IconDefinition | null = faFolder,
     iconOnClick: IconDefinition | null = faFolderOpen,
@@ -32,6 +35,7 @@ export class TreeNode implements ITreeNode {
     this.icon = icon;
     this.iconOnClick = iconOnClick;
     this.isFolder = isFolder;
+    this.id = id;
   }
 
   insert(node: ITreeNode): void {
@@ -40,25 +44,27 @@ export class TreeNode implements ITreeNode {
   }
 
   demo(): ITreeNode {
-    let parentNode = new TreeNode("My drive");
-    let firsttchildone = new TreeNode("Favorite songs");
-    let firsttchiltwo = new TreeNode("Favorite videos");
-    let firsttchildthree = new TreeNode("image.jpg", faFile, faFile, false);
+    let parentNode = new TreeNode(1, "My drive");
+    let firsttchildone = new TreeNode(2, "Favorite songs");
+    let firsttchiltwo = new TreeNode(3, "Favorite videos");
+    let firsttchildthree = new TreeNode(4, "image.jpg", faFile, faFile, false);
     parentNode.insert(firsttchildone);
     parentNode.insert(firsttchiltwo);
     parentNode.insert(firsttchildthree);
 
-    let firsttchildonesecondchildone = new TreeNode("Hindi songs");
-    let firsttchildonesecondchildtwo = new TreeNode("English songs");
-    let firsttchiltwosecondchiltwo = new TreeNode("Study materials");
+    let firsttchildonesecondchildone = new TreeNode(5, "Hindi songs");
+    let firsttchildonesecondchildtwo = new TreeNode(6, "English songs");
+    let firsttchiltwosecondchiltwo = new TreeNode(7, "Study materials");
     firsttchildone.insert(firsttchildonesecondchildone);
     firsttchildone.insert(firsttchildonesecondchildtwo);
     firsttchiltwo.insert(firsttchiltwosecondchiltwo);
 
     let firsttchildonesecondchildonethirdchildone = new TreeNode(
-      "Old Classics songs"
+      8,
+      "Old classical songs"
     );
     let firsttchildonesecondchildonethirdchildtwo = new TreeNode(
+      9,
       "Arijit singh songs"
     );
 

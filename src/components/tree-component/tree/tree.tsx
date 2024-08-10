@@ -51,7 +51,7 @@ const TreeEngine: React.FC<ITreeEngineProps> = ({
 
   const handelActionClick = () => {
     setShowChildren((prev) => !prev);
-    setFocusedItem(root.name);
+    setFocusedItem(root.id.toString());
   };
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
@@ -64,7 +64,7 @@ const TreeEngine: React.FC<ITreeEngineProps> = ({
     <div className={`w-full`}>
       <div
         className={`text-gray-300 flex items-center pr-6 cursor-pointer bg-slate-800 bg-opacity-0 hover:bg-opacity-100 w-full rounded-md ${
-          focusedItem === root.name ? "bg-opacity-60" : ""
+          focusedItem === root.id.toString() ? "bg-opacity-60" : ""
         } ${root.isFolder ? "" : "py-1 pl-3"} ${
           sticky && root.isFolder && isScroll
             ? "sticky top-0 z-10 bg-opacity-100 bg-zinc-700 transition-all ease-in-out duration-300"

@@ -107,26 +107,60 @@ const DashBoard: React.FC = () => {
       ref={elementRef}
       className="h-screen w-screen justify-center items-center"
     >
-      <div className="flex flex-row gap-4 h-1/6 w-full overflow-x-auto bg-gray-800 justify-center items-center">
+      <div className="flex flex-row gap-4 h-1/6 w-full overflow-x-auto bg-gray-800 justify-start lg:justify-center items-center">
         <NavLink to="dashboard/input-handler">
-          <Button property={inputButton}>Input Examples</Button>
+          <Button
+            property={inputButton}
+            className="whitespace-nowrap text-ellipsis"
+          >
+            Input Examples
+          </Button>
         </NavLink>
 
         <NavLink to="dashboard/button-handler">
           {" "}
-          <Button property={buttonButton}>Button Examples</Button>
+          <Button
+            property={buttonButton}
+            className="whitespace-nowrap text-ellipsis"
+          >
+            Button Examples
+          </Button>
         </NavLink>
 
         <NavLink to="dashboard/snackbar-handler">
-          <Button property={snackbarButton}>Snackbar Examples</Button>
+          <Button
+            property={snackbarButton}
+            className="whitespace-nowrap text-ellipsis"
+          >
+            Snackbar Examples
+          </Button>
         </NavLink>
 
         <NavLink to="dashboard/form-handler">
-          <Button property={snackbarButton}>Form Examples</Button>
+          <Button
+            property={snackbarButton}
+            className="whitespace-nowrap text-ellipsis"
+          >
+            Form Examples
+          </Button>
         </NavLink>
 
         <NavLink to="dashboard/tree-handler">
-          <Button property={snackbarButton}>Tree Examples</Button>
+          <Button
+            property={snackbarButton}
+            className="whitespace-nowrap text-ellipsis"
+          >
+            Tree Examples
+          </Button>
+        </NavLink>
+
+        <NavLink to="dashboard/autocomplete-handler">
+          <Button
+            property={snackbarButton}
+            className="whitespace-nowrap text-ellipsis"
+          >
+            Autocomplete Examples
+          </Button>
         </NavLink>
       </div>
       <div className="flex flex-col h-5/6 justify-center items-center bg-slate-900">
