@@ -6,15 +6,16 @@ import {
   IButtonProperty,
   IconLeftOrRight,
 } from "./button-property";
+import Spinner from "../../spinner-component/spinner/spinner";
 
-const spinnerStyle = {
-  border: "2px solid rgba(255, 255, 255, 0.2)",
-  borderTop: "3px solid #fff",
-  borderRadius: "50%",
-  width: "1.2rem",
-  height: "1.2rem",
-  animation: "spin 1s linear infinite",
-};
+// const spinnerStyle = {
+//   border: "2px solid rgba(255, 255, 255, 0.2)",
+//   borderTop: "3px solid #fff",
+//   borderRadius: "50%",
+//   width: "1.2rem",
+//   height: "1.2rem",
+//   animation: "spin 1s linear infinite",
+// };
 
 const spinnerKeyframes = `
 @keyframes spin {
@@ -81,10 +82,9 @@ const Button: React.FC<ButtonProps> = ({
         {...props}
       >
         {isLoading && (
-          <div
-            style={spinnerStyle}
-            className="absolute left-3 top-2.5 transform -translate-y-1/2"
-          ></div>
+          <div className="absolute left-3 top-6 transform -translate-y-1/2">
+            <Spinner size={22} thickness={8} color="text-gray-200" />
+          </div>
         )}
         {children &&
           property.Icon &&

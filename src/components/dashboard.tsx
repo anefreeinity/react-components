@@ -12,6 +12,8 @@ import {
   faSmileBeam,
   faSmileWink,
 } from "@fortawesome/free-solid-svg-icons";
+import { Parent } from "./Demo/parent";
+import { Child } from "./Demo/child";
 
 const DashBoard: React.FC = () => {
   const inputButton: IButtonProperty = new ButtonProperty();
@@ -102,6 +104,12 @@ const DashBoard: React.FC = () => {
     }
   };
 
+  const parent: Parent = new Parent();
+  parent.ParentProperties.border = "border-2 border-blue-500 rounded-md";
+
+  const child: Child = new Child();
+  child.ParentProperties.background = "bg-blue-500 bg-opacity-50";
+
   return (
     <div
       ref={elementRef}
@@ -173,6 +181,14 @@ const DashBoard: React.FC = () => {
         </NavLink>
       </div>
       <div className="flex flex-col h-5/6 justify-center items-center bg-slate-900">
+        {/* <div
+          className={`absolute top-24 left-24 ${parent.ParentPropertyClassNames}`}
+        >
+          TEST
+        </div>
+        <div className={`absolute top-24 left-48 ${child.PropertyClassNames}`}>
+          TEST 2
+        </div> */}
         <div className="flex flex-col w-10/12 lg:w-1/3 md:w-1/2 justify-center items-center">
           <Outlet />
         </div>
