@@ -179,6 +179,15 @@ const DashBoard: React.FC = () => {
             Spinner Examples
           </Button>
         </NavLink>
+
+        <NavLink to="dashboard/menu-handler">
+          <Button
+            property={snackbarButton}
+            className="whitespace-nowrap text-ellipsis"
+          >
+            Menu Examples
+          </Button>
+        </NavLink>
       </div>
       <div className="flex flex-col h-5/6 justify-center items-center bg-slate-900">
         {/* <div
