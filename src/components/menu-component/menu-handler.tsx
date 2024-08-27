@@ -1,3 +1,4 @@
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 import Menu from "./menu/menu";
 
 const MenuHandler: React.FC = () => {
@@ -14,6 +15,7 @@ const MenuHandler: React.FC = () => {
   const menuItems = [
     {
       label: "Profile",
+      leftIcon: faUser,
       children: [
         {
           label: "view dp",

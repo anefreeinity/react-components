@@ -5,9 +5,16 @@ import {
   IconLeftOrRight,
 } from "../../button-component/button/button-property";
 import Button from "../../button-component/button/button";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faCaretRight,
+  IconDefinition,
+} from "@fortawesome/free-solid-svg-icons";
 
 interface MenuItem {
   label: string;
+  leftIcon?: IconDefinition;
+  rightIcon?: IconDefinition;
   children?: MenuItem[];
   action?: () => void;
 }
@@ -24,6 +31,7 @@ const Menu: React.FC<MenuProps> = ({
   isRoot = true,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const menuRef = useRef<HTMLDivElement>(null);
 
   const toggleMenu = () => setIsOpen(!isOpen);
@@ -48,6 +56,11 @@ const Menu: React.FC<MenuProps> = ({
 
   const editButtonProperty: IButtonProperty = new ButtonProperty();
   editButtonProperty.IconLeftOrRight = IconLeftOrRight.Left;
+
+  const closeAllMenus = () => {
+    setIsOpen(false);
+    setSelectedIndex(null);
+  };
 
   return (
     <div className="relative inline-block text-left" ref={menuRef}>
@@ -79,8 +92,13 @@ const Menu: React.FC<MenuProps> = ({
                 item={item}
                 index={index}
                 isLast={index === items.length - 1}
+                isSelecetd={selectedIndex === index}
+                onSelect={(argIndex: number | null) =>
+                  setSelectedIndex(argIndex)
+                }
                 setIsOpen={setIsOpen}
                 menuRef={menuRef}
+                closeAllMenus={closeAllMenus}
               />
             ))}
           </div>
@@ -96,6 +114,9 @@ interface SubMenuProps {
   isLast: boolean;
   setIsOpen: (isOpen: boolean) => void;
   menuRef: React.RefObject<HTMLDivElement>;
+  closeAllMenus: () => void;
+  isSelecetd?: boolean;
+  onSelect?: (index: number | null) => void;
 }
 
 const SubMenu: React.FC<SubMenuProps> = ({
@@ -104,8 +125,12 @@ const SubMenu: React.FC<SubMenuProps> = ({
   isLast,
   setIsOpen,
   menuRef,
+  closeAllMenus,
+  isSelecetd,
+  onSelect,
 }) => {
   const [isChildrenOpen, setIsChildrenIsOpen] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const ref = useRef<HTMLDivElement>(null);
 
   const handleClickOutside = (event: MouseEvent) => {
@@ -132,23 +157,27 @@ const SubMenu: React.FC<SubMenuProps> = ({
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [isChildrenOpen]);
+  }, [isChildrenOpen, handleClickOutside]);
+
+  const hasChildren = item.children && item.children.length > 0;
 
   return (
     <div ref={ref}>
       <button
         key={index}
-        className={`text-gray-200 block px-4 py-2 text-sm w-48 text-left hover:bg-slate-700 
+        className={`flex items-center justify-between text-gray-200 px-3 py-2 text-sm w-48 text-left hover:bg-slate-700 
                 ${index === 0 ? "rounded-t-md" : ""} ${
           isLast ? "rounded-b-md" : ""
-        }`}
+        } ${isSelecetd && isChildrenOpen ? "bg-slate-700" : "bg-slate-800"}`}
         role="menuitem"
         onClick={() => {
-          setIsChildrenIsOpen((prev) => !prev);
+          onSelect!(index);
+          clearTimeout(timer);
+          setIsChildrenIsOpen(true);
           item && item.action && item.action();
           item && item.children && item.children.length > 0
             ? setIsOpen(true)
-            : setIsOpen(false);
+            : closeAllMenus();
         }}
         onMouseOver={() => {
           if (!item.children || item.children.length === 0) {
@@ -160,8 +189,9 @@ const SubMenu: React.FC<SubMenuProps> = ({
             setMenu(true);
           } else {
             clearTimeout(timer);
-            setMenu(true, 500);
+            setMenu(true, 300);
           }
+          onSelect!(index);
         }}
         onMouseOut={() => {
           if (!item.children || item.children.length === 0) {
@@ -172,7 +202,22 @@ const SubMenu: React.FC<SubMenuProps> = ({
           setMenu(false, 200);
         }}
       >
+        {item && item.leftIcon && (
+          <div className="pr-3 text-xs">
+            <FontAwesomeIcon icon={item.leftIcon} />
+          </div>
+        )}
         {item && item.label}
+        {hasChildren && (
+          <div className="ml-auto">
+            <FontAwesomeIcon icon={faCaretRight} />
+          </div>
+        )}
+        {!hasChildren && item && item.rightIcon && (
+          <div className="ml-auto">
+            <FontAwesomeIcon icon={item.rightIcon} />
+          </div>
+        )}
       </button>
 
       {isChildrenOpen && (
@@ -186,20 +231,24 @@ const SubMenu: React.FC<SubMenuProps> = ({
           onMouseOver={() => {
             clearTimeout(timer);
             setIsChildrenIsOpen(true);
+            onSelect!(index);
           }}
         >
           <div role="none">
             {item.children &&
-              item.children.map((item, index) => (
+              item.children.map((childItem, childIndex) => (
                 <SubMenu
-                  key={index}
-                  item={item}
-                  index={index}
-                  isLast={
-                    index === (item.children ? item.children.length : 0) - 1
+                  key={childIndex}
+                  item={childItem}
+                  index={childIndex}
+                  isLast={childIndex === item.children!.length - 1}
+                  isSelecetd={selectedIndex === childIndex}
+                  onSelect={(argIndex: number | null) =>
+                    setSelectedIndex(argIndex)
                   }
                   setIsOpen={setIsChildrenIsOpen}
                   menuRef={ref}
+                  closeAllMenus={closeAllMenus}
                 />
               ))}
           </div>
