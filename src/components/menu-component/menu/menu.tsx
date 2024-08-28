@@ -78,9 +78,9 @@ const Menu: React.FC<MenuProps> = ({
 
       {isOpen && (
         <div
-          className={`origin-top-right absolute right-0 mt-2 rounded-md shadow-lg bg-slate-800 ring-1 ring-black ring-opacity-5 focus:outline-none transition ease-out duration-200 transform opacity-0 scale-95 ${
+          className={`origin-top-right absolute right-0 mt-0 rounded-md shadow-lg bg-slate-800 ring-1 ring-black ring-opacity-5 focus:outline-none transition ease-out duration-200 transform opacity-0 scale-95 ${
             isOpen ? "opacity-100 scale-100" : ""
-          }`}
+          } z-10`}
           role="menu"
           aria-orientation="vertical"
           aria-labelledby="menu-button"
@@ -99,6 +99,7 @@ const Menu: React.FC<MenuProps> = ({
                 setIsOpen={setIsOpen}
                 menuRef={menuRef}
                 closeAllMenus={closeAllMenus}
+                lavel={2}
               />
             ))}
           </div>
@@ -117,6 +118,7 @@ interface SubMenuProps {
   closeAllMenus: () => void;
   isSelecetd?: boolean;
   onSelect?: (index: number | null) => void;
+  lavel: number;
 }
 
 const SubMenu: React.FC<SubMenuProps> = ({
@@ -128,6 +130,7 @@ const SubMenu: React.FC<SubMenuProps> = ({
   closeAllMenus,
   isSelecetd,
   onSelect,
+  lavel,
 }) => {
   const [isChildrenOpen, setIsChildrenIsOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
@@ -189,7 +192,7 @@ const SubMenu: React.FC<SubMenuProps> = ({
             setMenu(true);
           } else {
             clearTimeout(timer);
-            setMenu(true, 300);
+            setMenu(true, 200);
           }
           onSelect!(index);
         }}
@@ -199,7 +202,7 @@ const SubMenu: React.FC<SubMenuProps> = ({
             return;
           }
           clearTimeout(timer);
-          setMenu(false, 200);
+          setMenu(false, 100);
         }}
       >
         {item && item.leftIcon && (
@@ -222,9 +225,9 @@ const SubMenu: React.FC<SubMenuProps> = ({
 
       {isChildrenOpen && (
         <div
-          className={`origin-top-right absolute right-full top-0 mr-2 rounded-md shadow-lg bg-slate-800 ring-1 ring-black ring-opacity-5 focus:outline-none transition ease-out duration-200 transform opacity-0 scale-95 ${
+          className={`origin-top-right absolute right-full top-0 mr-0 rounded-md shadow-lg bg-slate-800 ring-1 ring-black ring-opacity-5 focus:outline-none transition ease-out duration-200 transform opacity-0 scale-95 ${
             isChildrenOpen ? "opacity-100 scale-100" : ""
-          }`}
+          } z-${lavel * 10}`}
           role="menu"
           aria-orientation="vertical"
           aria-labelledby="menu-button"
@@ -249,6 +252,7 @@ const SubMenu: React.FC<SubMenuProps> = ({
                   setIsOpen={setIsChildrenIsOpen}
                   menuRef={ref}
                   closeAllMenus={closeAllMenus}
+                  lavel={lavel + 1}
                 />
               ))}
           </div>
