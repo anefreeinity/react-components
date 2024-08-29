@@ -133,7 +133,10 @@ const DashBoard: React.FC = () => {
   ];
 
   return (
-    <div className="h-screen w-screen justify-center items-center">
+    <div
+      ref={elementRef}
+      className="h-screen w-screen justify-center items-center"
+    >
       <div
         className={`flex overflow-y-hidden flex-row gap-4 ${
           spinnerDropdownOpen ? "h-2/6 items-start pt-4" : "h-1/6 items-center"

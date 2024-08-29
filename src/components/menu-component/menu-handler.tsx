@@ -1,5 +1,6 @@
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import Menu from "./menu/menu";
+import Spinner from "../spinner-component/spinner/spinner";
 
 const MenuHandler: React.FC = () => {
   const handleItemClick = (label: string) => {
@@ -9,7 +10,7 @@ const MenuHandler: React.FC = () => {
   const menuItems = [
     {
       label: "Profile",
-      leftIcon: faUser,
+      leftActionItem: faUser,
       children: [
         {
           label: "view dp",

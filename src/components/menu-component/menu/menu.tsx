@@ -13,8 +13,8 @@ import {
 
 interface MenuItem {
   label: string;
-  leftIcon?: IconDefinition;
-  rightIcon?: IconDefinition;
+  leftActionItem?: IconDefinition | JSX.Element;
+  rightActionItem?: IconDefinition | JSX.Element;
   children?: MenuItem[];
   action?: () => void;
 }
@@ -179,7 +179,7 @@ const Menu: React.FC<MenuProps> = ({
       {isOpen && (
         <div
           style={menuPosition}
-          className={`origin-top-right absolute mt-2 rounded-md shadow-lg bg-slate-800 ring-1 ring-black ring-opacity-5 focus:outline-none transition ease-out duration-200 transform opacity-0 scale-95 ${
+          className={`origin-top-right absolute mt-2 rounded-md shadow-lg bg-slate-800 ring-1 ring-black ring-opacity-5 focus:outline-none transition ease-out duration-300 transform opacity-0 scale-95 ${
             isOpen ? "opacity-100 scale-100" : ""
           } z-10`}
           role="menu"
@@ -306,16 +306,21 @@ const SubMenu: React.FC<SubMenuProps> = ({
         key={index}
         className={`flex items-center justify-between text-gray-200 px-2 md:px-3 py-2 text-xs md:text-sm w-32 md:w-48 text-left hover:bg-slate-700 
                 ${index === 0 ? "rounded-t-md" : ""} ${
-          isLast ? "rounded-b-md" : ""
+          isLast ? "rounded-b-md" : "border-b border-slate-700"
         } ${isSelected && isChildrenOpen ? "bg-slate-700" : "bg-slate-800"}`}
         role="menuitem"
         onClick={handelClick}
         onMouseOver={handelOnMouseOver}
         onMouseOut={handelMouseOut}
       >
-        {item && item.leftIcon && (
+        {item && item.leftActionItem && (
           <div className="pr-3 text-xs">
-            <FontAwesomeIcon icon={item.leftIcon} />
+            {!React.isValidElement(item.leftActionItem) && (
+              <FontAwesomeIcon icon={item.leftActionItem as IconDefinition} />
+            )}
+            {React.isValidElement(item.leftActionItem) && (
+              <>{item.leftActionItem}</>
+            )}
           </div>
         )}
         {item && item.label}
@@ -324,9 +329,14 @@ const SubMenu: React.FC<SubMenuProps> = ({
             <FontAwesomeIcon icon={faCaretRight} />
           </div>
         )}
-        {!hasChildren && item && item.rightIcon && (
-          <div className="ml-auto">
-            <FontAwesomeIcon icon={item.rightIcon} />
+        {!hasChildren && item && item.rightActionItem && (
+          <div className="ml-auto text-xs">
+            {!React.isValidElement(item.rightActionItem) && (
+              <FontAwesomeIcon icon={item.rightActionItem as IconDefinition} />
+            )}
+            {React.isValidElement(item.rightActionItem) && (
+              <>{item.rightActionItem}</>
+            )}
           </div>
         )}
       </button>
@@ -337,7 +347,8 @@ const SubMenu: React.FC<SubMenuProps> = ({
             menuPos.isLeft
               ? "left-full -translate-x-2 md:-translate-x-2.5"
               : "right-full"
-          } top-1 mr-0 rounded-md shadow-lg bg-slate-800 ring-1 ring-black ring-opacity-5 focus:outline-none transition ease-out duration-200 transform opacity-0 scale-95 ${
+          } top-1 mr-0 rounded-md shadow-lg bg-slate-800 ring-1 ring-black ring-opacity-5 
+          focus:outline-none transition ease-out duration-300 transform opacity-0 scale-95 ${
             isChildrenOpen ? "opacity-100 scale-100" : ""
           } z-${level * 10}`}
           role="menu"
