@@ -1,5 +1,5 @@
-import React, { useRef } from "react";
-import { NavLink, Outlet } from "react-router-dom";
+import React, { useRef, useState } from "react";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import Button from "./button-component/button/button";
 import {
   ButtonProperty,
@@ -14,6 +14,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { Parent } from "./Demo/parent";
 import { Child } from "./Demo/child";
+import Menu from "./menu-component/menu/menu";
 
 const DashBoard: React.FC = () => {
   const inputButton: IButtonProperty = new ButtonProperty();
@@ -110,12 +111,34 @@ const DashBoard: React.FC = () => {
   const child: Child = new Child();
   child.ParentProperties.background = "bg-blue-500 bg-opacity-50";
 
+  const [spinnerDropdownOpen, setSpinnerDropdownOpen] =
+    useState<boolean>(false);
+  const navigate = useNavigate();
+
+  const menuItems = [
+    {
+      label: "Spinner 1",
+      action: () => {
+        setSpinnerDropdownOpen(false);
+        navigate("dashboard/spinner-handler");
+      },
+    },
+    {
+      label: "Spinner 2",
+      action: () => {
+        navigate("dashboard/spinner-handler2");
+        setSpinnerDropdownOpen(false);
+      },
+    },
+  ];
+
   return (
-    <div
-      ref={elementRef}
-      className="h-screen w-screen justify-center items-center"
-    >
-      <div className="flex flex-row gap-4 h-1/6 w-full overflow-x-auto bg-gray-800 justify-start lg:justify-center items-center">
+    <div className="h-screen w-screen justify-center items-center">
+      <div
+        className={`flex overflow-y-hidden flex-row gap-4 ${
+          spinnerDropdownOpen ? "h-2/6 items-start pt-4" : "h-1/6 items-center"
+        } w-full overflow-x-auto bg-gray-800 justify-start lg:justify-center`}
+      >
         <NavLink to="dashboard/input-handler">
           <Button
             property={inputButton}
@@ -171,14 +194,23 @@ const DashBoard: React.FC = () => {
           </Button>
         </NavLink>
 
-        <NavLink to="dashboard/spinner-handler">
-          <Button
-            property={snackbarButton}
-            className="whitespace-nowrap text-ellipsis"
-          >
-            Spinner Examples
-          </Button>
-        </NavLink>
+        <div>
+          <Menu
+            items={menuItems}
+            rootElement={
+              <Button
+                property={snackbarButton}
+                className="whitespace-nowrap text-ellipsis"
+                onClick={() => {
+                  navigate("dashboard/spinner-handler");
+                  setSpinnerDropdownOpen(true);
+                }}
+              >
+                Spinner Examples
+              </Button>
+            }
+          ></Menu>
+        </div>
 
         <NavLink to="dashboard/menu-handler">
           <Button
@@ -189,7 +221,11 @@ const DashBoard: React.FC = () => {
           </Button>
         </NavLink>
       </div>
-      <div className="flex flex-col h-5/6 justify-center items-center bg-slate-900">
+      <div
+        className={`flex ${
+          spinnerDropdownOpen ? "h-4/6" : "h-5/6"
+        } flex-col justify-center items-center bg-slate-900`}
+      >
         {/* <div
           className={`absolute top-24 left-24 ${parent.ParentPropertyClassNames}`}
         >

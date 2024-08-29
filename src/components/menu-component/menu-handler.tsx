@@ -6,12 +6,6 @@ const MenuHandler: React.FC = () => {
     alert(`You clicked on ${label}`);
   };
 
-  //   const menuItems = [
-  //     { label: "Profile", action: () => handleItemClick("Profile") },
-  //     { label: "Settings", action: () => handleItemClick("Settings") },
-  //     { label: "Logout", action: () => handleItemClick("Logout") },
-  //   ];
-
   const menuItems = [
     {
       label: "Profile",
@@ -59,7 +53,22 @@ const MenuHandler: React.FC = () => {
     { label: "Logout", action: () => handleItemClick("Logout") },
   ];
 
-  return <Menu items={menuItems} />;
+  return (
+    <div>
+      <div className="absolute top-60 left-16">
+        <Menu items={menuItems} />
+      </div>
+      <div className="absolute top-3/4 left-16">
+        <Menu items={menuItems} />
+      </div>
+      <div className="absolute top-60 left-3/4">
+        <Menu items={menuItems} />
+      </div>
+      <div className="absolute top-3/4 left-3/4">
+        <Menu items={menuItems} />
+      </div>
+    </div>
+  );
 };
 
 export default MenuHandler;

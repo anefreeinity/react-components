@@ -10,6 +10,7 @@ import TreeHandler from "./components/tree-component/tree-handler";
 import AutocompleteHandler from "./components/autocomplete-component/autocomplete-handler";
 import SpinnerHandler from "./components/spinner-component/spinner-handler";
 import MenuHandler from "./components/menu-component/menu-handler";
+import SpinnerHandler2 from "./components/spinner-component/spinner-handler2";
 
 const router = createBrowserRouter([
   {
@@ -47,6 +48,10 @@ const router = createBrowserRouter([
           {
             path: "dashboard/spinner-handler",
             element: <SpinnerHandler />,
+          },
+          {
+            path: "dashboard/spinner-handler2",
+            element: <SpinnerHandler2 />,
           },
           {
             path: "dashboard/menu-handler",

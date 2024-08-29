@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import {
   ButtonProperty,
   IButtonProperty,
@@ -22,17 +22,27 @@ interface MenuItem {
 interface MenuProps {
   items: MenuItem[];
   rootElement?: JSX.Element;
-  isRoot?: boolean;
+  className?: string;
 }
 
 const Menu: React.FC<MenuProps> = ({
   items,
   rootElement = null,
-  isRoot = true,
+  className,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [menuPosition, setMenuPosition] = useState<any>({
+    bottom: `50px`,
+    right: `0`,
+    top: `auto`,
+    left: `auto`,
+    isLeft: false,
+    menuWidth: 0,
+    menuHeight: 0,
+  });
   const menuRef = useRef<HTMLDivElement>(null);
+  const menuActionRef = useRef<HTMLDivElement>(null);
 
   const toggleMenu = () => setIsOpen(!isOpen);
 
@@ -62,23 +72,114 @@ const Menu: React.FC<MenuProps> = ({
     setSelectedIndex(null);
   };
 
+  const updateMenuPosition = useCallback(() => {
+    if (!menuRef.current) return;
+
+    const parentRect = menuRef.current.getBoundingClientRect();
+    const screenWidth = window.innerWidth;
+    const screenHeight = window.innerHeight;
+    const menuWidth = menuActionRef
+      ? menuActionRef.current
+        ? menuActionRef.current.offsetWidth
+        : 0
+      : 0;
+    const menuHeight = menuActionRef
+      ? menuActionRef.current
+        ? menuActionRef!.current!.offsetHeight
+        : 0
+      : 0;
+
+    if (
+      parentRect.right < screenWidth / 2 &&
+      parentRect.bottom < screenHeight / 2
+    ) {
+      console.log("top left");
+      const menu = {
+        bottom: null,
+        right: null,
+        top: `${menuHeight}px`,
+        left: `0`,
+        isLeft: true,
+        menuWidth: menuWidth,
+        menuHeight: menuHeight,
+      };
+      setMenuPosition(menu);
+    } else if (
+      parentRect.right < screenWidth / 2 &&
+      parentRect.bottom >= screenHeight / 2
+    ) {
+      console.log("bottom left");
+      const menu = {
+        bottom: `${menuHeight}px`,
+        right: null,
+        top: null,
+        left: `0`,
+        isLeft: true,
+        menuWidth: menuWidth,
+        menuHeight: menuHeight,
+      };
+      setMenuPosition(menu);
+    } else if (
+      parentRect.right >= screenWidth / 2 &&
+      parentRect.bottom < screenHeight / 2
+    ) {
+      console.log("top right");
+      const menu = {
+        bottom: null,
+        right: `0`,
+        top: `${menuHeight}px`,
+        left: null,
+        isLeft: false,
+        menuWidth: menuWidth,
+        menuHeight: menuHeight,
+      };
+      setMenuPosition(menu);
+    } else {
+      console.log("bottom right");
+      const menu = {
+        bottom: `${menuHeight}px`,
+        right: `0`,
+        top: null,
+        left: null,
+        isLeft: false,
+        menuWidth: menuWidth,
+        menuHeight: menuHeight,
+      };
+      setMenuPosition(menu);
+    }
+  }, [menuRef, menuActionRef, isOpen]);
+
+  useEffect(() => {
+    updateMenuPosition();
+    window.addEventListener("resize", updateMenuPosition);
+
+    return () => {
+      window.removeEventListener("resize", updateMenuPosition);
+    };
+  }, [updateMenuPosition]);
+
   return (
-    <div className="relative inline-block text-left" ref={menuRef}>
-      {isRoot && (
-        <div onClick={toggleMenu}>
-          {rootElement ? (
-            rootElement
-          ) : (
-            <Button className="px-4" property={editButtonProperty}>
-              Options
-            </Button>
-          )}
-        </div>
-      )}
+    <div
+      className={`relative inline-block text-left ${className}`}
+      ref={menuRef}
+    >
+      <div onClick={toggleMenu} ref={menuActionRef}>
+        {rootElement ? (
+          rootElement
+        ) : (
+          <Button
+            className="px-4 text-xs md:text-sm"
+            property={editButtonProperty}
+          >
+            Options
+          </Button>
+        )}
+      </div>
 
       {isOpen && (
         <div
-          className={`origin-top-right absolute right-0 mt-0 rounded-md shadow-lg bg-slate-800 ring-1 ring-black ring-opacity-5 focus:outline-none transition ease-out duration-200 transform opacity-0 scale-95 ${
+          style={menuPosition}
+          className={`origin-top-right absolute mt-2 rounded-md shadow-lg bg-slate-800 ring-1 ring-black ring-opacity-5 focus:outline-none transition ease-out duration-200 transform opacity-0 scale-95 ${
             isOpen ? "opacity-100 scale-100" : ""
           } z-10`}
           role="menu"
@@ -92,14 +193,15 @@ const Menu: React.FC<MenuProps> = ({
                 item={item}
                 index={index}
                 isLast={index === items.length - 1}
-                isSelecetd={selectedIndex === index}
+                isSelected={selectedIndex === index}
                 onSelect={(argIndex: number | null) =>
                   setSelectedIndex(argIndex)
                 }
                 setIsOpen={setIsOpen}
                 menuRef={menuRef}
                 closeAllMenus={closeAllMenus}
-                lavel={2}
+                level={2}
+                menuPos={menuPosition}
               />
             ))}
           </div>
@@ -116,9 +218,10 @@ interface SubMenuProps {
   setIsOpen: (isOpen: boolean) => void;
   menuRef: React.RefObject<HTMLDivElement>;
   closeAllMenus: () => void;
-  isSelecetd?: boolean;
+  isSelected?: boolean;
   onSelect?: (index: number | null) => void;
-  lavel: number;
+  level: number;
+  menuPos?: any;
 }
 
 const SubMenu: React.FC<SubMenuProps> = ({
@@ -128,29 +231,22 @@ const SubMenu: React.FC<SubMenuProps> = ({
   setIsOpen,
   menuRef,
   closeAllMenus,
-  isSelecetd,
+  isSelected,
   onSelect,
-  lavel,
+  level,
+  menuPos,
 }) => {
   const [isChildrenOpen, setIsChildrenIsOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const ref = useRef<HTMLDivElement>(null);
 
-  const handleClickOutside = (event: MouseEvent) => {
-    if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-      setIsOpen(false);
-      setIsChildrenIsOpen(false);
-    }
-  };
-
-  let timer: ReturnType<typeof setTimeout>;
-  const setMenu = (state: boolean, interval: number = 0) => {
-    timer = setTimeout(() => {
-      setIsChildrenIsOpen(state);
-    }, interval);
-  };
-
   useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+        setIsChildrenIsOpen(false);
+      }
+    };
     if (isChildrenOpen) {
       document.addEventListener("mousedown", handleClickOutside);
     } else {
@@ -160,50 +256,62 @@ const SubMenu: React.FC<SubMenuProps> = ({
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [isChildrenOpen, handleClickOutside]);
+  }, [isChildrenOpen, menuRef, setIsOpen, setIsChildrenIsOpen]);
 
+  let timer: ReturnType<typeof setTimeout>;
+  const setMenu = (state: boolean, interval: number = 0) => {
+    timer = setTimeout(() => {
+      setIsChildrenIsOpen(state);
+    }, interval);
+  };
   const hasChildren = item.children && item.children.length > 0;
+
+  const handelClick = () => {
+    onSelect!(index);
+    clearTimeout(timer);
+    setIsChildrenIsOpen(true);
+    item && item.action && item.action();
+    item && item.children && item.children.length > 0
+      ? setIsOpen(true)
+      : closeAllMenus();
+  };
+
+  const handelOnMouseOver = () => {
+    if (!item.children || item.children.length === 0) {
+      clearTimeout(timer);
+      return;
+    }
+    if (timer) {
+      clearTimeout(timer);
+      setMenu(true);
+    } else {
+      clearTimeout(timer);
+      setMenu(true, 200);
+    }
+    onSelect!(index);
+  };
+
+  const handelMouseOut = () => {
+    if (!item.children || item.children.length === 0) {
+      clearTimeout(timer);
+      return;
+    }
+    clearTimeout(timer);
+    setMenu(false, 100);
+  };
 
   return (
     <div ref={ref}>
       <button
         key={index}
-        className={`flex items-center justify-between text-gray-200 px-3 py-2 text-sm w-48 text-left hover:bg-slate-700 
+        className={`flex items-center justify-between text-gray-200 px-2 md:px-3 py-2 text-xs md:text-sm w-32 md:w-48 text-left hover:bg-slate-700 
                 ${index === 0 ? "rounded-t-md" : ""} ${
           isLast ? "rounded-b-md" : ""
-        } ${isSelecetd && isChildrenOpen ? "bg-slate-700" : "bg-slate-800"}`}
+        } ${isSelected && isChildrenOpen ? "bg-slate-700" : "bg-slate-800"}`}
         role="menuitem"
-        onClick={() => {
-          onSelect!(index);
-          clearTimeout(timer);
-          setIsChildrenIsOpen(true);
-          item && item.action && item.action();
-          item && item.children && item.children.length > 0
-            ? setIsOpen(true)
-            : closeAllMenus();
-        }}
-        onMouseOver={() => {
-          if (!item.children || item.children.length === 0) {
-            clearTimeout(timer);
-            return;
-          }
-          if (timer) {
-            clearTimeout(timer);
-            setMenu(true);
-          } else {
-            clearTimeout(timer);
-            setMenu(true, 200);
-          }
-          onSelect!(index);
-        }}
-        onMouseOut={() => {
-          if (!item.children || item.children.length === 0) {
-            clearTimeout(timer);
-            return;
-          }
-          clearTimeout(timer);
-          setMenu(false, 100);
-        }}
+        onClick={handelClick}
+        onMouseOver={handelOnMouseOver}
+        onMouseOut={handelMouseOut}
       >
         {item && item.leftIcon && (
           <div className="pr-3 text-xs">
@@ -225,9 +333,13 @@ const SubMenu: React.FC<SubMenuProps> = ({
 
       {isChildrenOpen && (
         <div
-          className={`origin-top-right absolute right-full top-0 mr-0 rounded-md shadow-lg bg-slate-800 ring-1 ring-black ring-opacity-5 focus:outline-none transition ease-out duration-200 transform opacity-0 scale-95 ${
+          className={`origin-top-right absolute ${
+            menuPos.isLeft
+              ? "left-full -translate-x-2 md:-translate-x-2.5"
+              : "right-full"
+          } top-1 mr-0 rounded-md shadow-lg bg-slate-800 ring-1 ring-black ring-opacity-5 focus:outline-none transition ease-out duration-200 transform opacity-0 scale-95 ${
             isChildrenOpen ? "opacity-100 scale-100" : ""
-          } z-${lavel * 10}`}
+          } z-${level * 10}`}
           role="menu"
           aria-orientation="vertical"
           aria-labelledby="menu-button"
@@ -245,14 +357,15 @@ const SubMenu: React.FC<SubMenuProps> = ({
                   item={childItem}
                   index={childIndex}
                   isLast={childIndex === item.children!.length - 1}
-                  isSelecetd={selectedIndex === childIndex}
+                  isSelected={selectedIndex === childIndex}
                   onSelect={(argIndex: number | null) =>
                     setSelectedIndex(argIndex)
                   }
                   setIsOpen={setIsChildrenIsOpen}
                   menuRef={ref}
                   closeAllMenus={closeAllMenus}
-                  lavel={lavel + 1}
+                  level={level + 1}
+                  menuPos={menuPos}
                 />
               ))}
           </div>
