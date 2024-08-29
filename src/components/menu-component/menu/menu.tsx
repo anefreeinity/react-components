@@ -10,6 +10,7 @@ import {
   faCaretRight,
   IconDefinition,
 } from "@fortawesome/free-solid-svg-icons";
+import { IMenuProperty, MenuProperty } from "./menu-property";
 
 interface MenuItem {
   label: string;
@@ -23,12 +24,14 @@ interface MenuProps {
   items: MenuItem[];
   rootElement?: JSX.Element;
   className?: string;
+  menuProperty?: IMenuProperty;
 }
 
 const Menu: React.FC<MenuProps> = ({
   items,
   rootElement = null,
   className,
+  menuProperty = new MenuProperty(),
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
@@ -168,7 +171,7 @@ const Menu: React.FC<MenuProps> = ({
           rootElement
         ) : (
           <Button
-            className="px-4 text-xs md:text-sm"
+            className="text-xs md:text-sm font-semibold md:font-normal"
             property={editButtonProperty}
           >
             Options
@@ -179,7 +182,13 @@ const Menu: React.FC<MenuProps> = ({
       {isOpen && (
         <div
           style={menuPosition}
-          className={`origin-top-right absolute mt-2 rounded-md shadow-lg bg-slate-800 ring-1 ring-black ring-opacity-5 focus:outline-none transition ease-out duration-300 transform opacity-0 scale-95 ${
+          className={`origin-top-right absolute mt-2 ${
+            menuProperty.MenuBorderRadius
+          } ${menuProperty.MenuShadow} ${menuProperty.MenuBackgroundColor} ${
+            menuProperty.MenuRingDesign
+          } focus:outline-none transition ease-out ${
+            menuProperty.TransitionDuration
+          } transform opacity-0 scale-95 ${
             isOpen ? "opacity-100 scale-100" : ""
           } z-10`}
           role="menu"
@@ -202,6 +211,7 @@ const Menu: React.FC<MenuProps> = ({
                 closeAllMenus={closeAllMenus}
                 level={2}
                 menuPos={menuPosition}
+                menuProperty={menuProperty}
               />
             ))}
           </div>
@@ -222,6 +232,7 @@ interface SubMenuProps {
   onSelect?: (index: number | null) => void;
   level: number;
   menuPos?: any;
+  menuProperty?: IMenuProperty;
 }
 
 const SubMenu: React.FC<SubMenuProps> = ({
@@ -235,6 +246,7 @@ const SubMenu: React.FC<SubMenuProps> = ({
   onSelect,
   level,
   menuPos,
+  menuProperty = new MenuProperty(),
 }) => {
   const [isChildrenOpen, setIsChildrenIsOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
@@ -286,7 +298,7 @@ const SubMenu: React.FC<SubMenuProps> = ({
       setMenu(true);
     } else {
       clearTimeout(timer);
-      setMenu(true, 200);
+      setMenu(true, 300);
     }
     onSelect!(index);
   };
@@ -300,21 +312,35 @@ const SubMenu: React.FC<SubMenuProps> = ({
     setMenu(false, 100);
   };
 
+  const lastItem = menuProperty.MenuBorderRadius.split("-")[1] ?? "md";
+
   return (
     <div ref={ref}>
       <button
         key={index}
-        className={`flex items-center justify-between text-gray-200 px-2 md:px-3 py-2 text-xs md:text-sm w-32 md:w-48 text-left hover:bg-slate-700 
-                ${index === 0 ? "rounded-t-md" : ""} ${
-          isLast ? "rounded-b-md" : "border-b border-slate-700"
-        } ${isSelected && isChildrenOpen ? "bg-slate-700" : "bg-slate-800"}`}
+        className={`flex items-center justify-between ${
+          menuProperty.ItemTextColor
+        } ${menuProperty.ItemPaddingStyle} ${menuProperty.ItemTextSize} ${
+          menuProperty.ItemWidth
+        } ${menuProperty.ItemTextPosition} ${
+          menuProperty.ItemBackgroundColorOnHover
+        } 
+                ${index === 0 ? `rounded-t-${lastItem}` : ""} ${
+          isLast
+            ? `rounded-b-${lastItem}`
+            : `border-b ${menuProperty.ItemBorderColor}`
+        } ${
+          isSelected && isChildrenOpen
+            ? `${menuProperty.ItemStyleOnSelect}`
+            : `${menuProperty.ItemBackgroundColor}`
+        }`}
         role="menuitem"
         onClick={handelClick}
         onMouseOver={handelOnMouseOver}
         onMouseOut={handelMouseOut}
       >
         {item && item.leftActionItem && (
-          <div className="pr-3 text-xs">
+          <div className={`${menuProperty.LeftActionItemStyle}`}>
             {!React.isValidElement(item.leftActionItem) && (
               <FontAwesomeIcon icon={item.leftActionItem as IconDefinition} />
             )}
@@ -325,12 +351,12 @@ const SubMenu: React.FC<SubMenuProps> = ({
         )}
         {item && item.label}
         {hasChildren && (
-          <div className="ml-auto">
+          <div className={`ml-auto ${menuProperty.FolderActionItemStyle}`}>
             <FontAwesomeIcon icon={faCaretRight} />
           </div>
         )}
         {!hasChildren && item && item.rightActionItem && (
-          <div className="ml-auto text-xs">
+          <div className={`ml-auto ${menuProperty.RightActionItemStyle}`}>
             {!React.isValidElement(item.rightActionItem) && (
               <FontAwesomeIcon icon={item.rightActionItem as IconDefinition} />
             )}
@@ -345,10 +371,14 @@ const SubMenu: React.FC<SubMenuProps> = ({
         <div
           className={`origin-top-right absolute ${
             menuPos.isLeft
-              ? "left-full -translate-x-2 md:-translate-x-2.5"
+              ? `left-full ${menuProperty.MenuTranslate}`
               : "right-full"
-          } top-1 mr-0 rounded-md shadow-lg bg-slate-800 ring-1 ring-black ring-opacity-5 
-          focus:outline-none transition ease-out duration-300 transform opacity-0 scale-95 ${
+          } top-1 mr-0 ${menuProperty.MenuBorderRadius} ${
+            menuProperty.MenuShadow
+          } ${menuProperty.MenuBackgroundColor} ${menuProperty.MenuRingDesign}
+          focus:outline-none transition ease-out ${
+            menuProperty.TransitionDuration
+          } transform opacity-0 scale-95 ${
             isChildrenOpen ? "opacity-100 scale-100" : ""
           } z-${level * 10}`}
           role="menu"
@@ -377,6 +407,7 @@ const SubMenu: React.FC<SubMenuProps> = ({
                   closeAllMenus={closeAllMenus}
                   level={level + 1}
                   menuPos={menuPos}
+                  menuProperty={menuProperty}
                 />
               ))}
           </div>

@@ -1,6 +1,6 @@
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import Menu from "./menu/menu";
-import Spinner from "../spinner-component/spinner/spinner";
+import { IMenuProperty, MenuProperty } from "./menu/menu-property";
 
 const MenuHandler: React.FC = () => {
   const handleItemClick = (label: string) => {
@@ -54,6 +54,18 @@ const MenuHandler: React.FC = () => {
     { label: "Logout", action: () => handleItemClick("Logout") },
   ];
 
+  const menuProperty: IMenuProperty = new MenuProperty();
+  menuProperty.MenuBorderRadius = "rounded-sm";
+  menuProperty.MenuBackgroundColor = "bg-gray-300";
+  menuProperty.ItemBackgroundColor = "bg-gray-300";
+  menuProperty.ItemTextColor = "text-gray-950 font-bold";
+  menuProperty.ItemBorderColor = "border-gray-400";
+  menuProperty.ItemBackgroundColorOnHover = "hover:bg-gray-400 opacity-80";
+  menuProperty.ItemStyleOnSelect = "bg-gray-400";
+  menuProperty.LeftActionItemStyle = "pr-3 text-xs text-blue-600 font-bold";
+  menuProperty.RightActionItemStyle = "text-xs text-blue-600 font-bold";
+  menuProperty.FolderActionItemStyle = "text-blue-600 font-bold";
+
   return (
     <div>
       <div className="absolute top-60 left-16">
@@ -66,7 +78,7 @@ const MenuHandler: React.FC = () => {
         <Menu items={menuItems} />
       </div>
       <div className="absolute top-3/4 left-3/4">
-        <Menu items={menuItems} />
+        <Menu items={menuItems} menuProperty={menuProperty} />
       </div>
     </div>
   );
