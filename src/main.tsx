@@ -8,9 +8,16 @@ import FormHandler, {
 } from "./components/form-component/form-handler";
 import TreeHandler from "./components/tree-component/tree-handler";
 import AutocompleteHandler from "./components/autocomplete-component/autocomplete-handler";
-import SpinnerHandler from "./components/spinner-component/spinner-handler";
+
 import MenuHandler from "./components/menu-component/menu-handler";
-import SpinnerHandler2 from "./components/spinner-component/spinner-handler2";
+import DotPulseHandler from "./components/spinner-component/dot-pulse-handler";
+import DotSpinnerHandler from "./components/spinner-component/dot-spinner-handler";
+import DotStreamHandler from "./components/spinner-component/dot-stream-handler";
+import LineSpinnerHandler from "./components/spinner-component/line-spinner-handler";
+import RingHandler from "./components/spinner-component/ring-handler";
+import TailspinHandler from "./components/spinner-component/tailspin-handler";
+ 
+import AvatarHandler from "./components/avatar-component/avatar-handler";
 
 const router = createBrowserRouter([
   {
@@ -46,16 +53,40 @@ const router = createBrowserRouter([
             element: <AutocompleteHandler />,
           },
           {
-            path: "dashboard/spinner-handler",
-            element: <SpinnerHandler />,
+            path: "dashboard/dot-pulse-handler",
+            element: <DotPulseHandler />,
           },
           {
-            path: "dashboard/spinner-handler2",
-            element: <SpinnerHandler2 />,
+            path: "dashboard/dot-spinner-handler",
+            element: <DotSpinnerHandler />,
+          },
+          {
+            path: "dashboard/dot-stream-handler",
+            element: <DotStreamHandler />,
+          },
+          {
+            path: "dashboard/line-spinner-handler",
+            element: <LineSpinnerHandler />,
+          },
+          {
+            path: "dashboard/ring-handler",
+            element: <RingHandler />,
+          },
+          {
+            path: "dashboard/tailspin-handler",
+            element: <TailspinHandler />,
+          },
+          {
+            path: "dashboard/line-spinner-handler",
+            element: <LineSpinnerHandler />,
           },
           {
             path: "dashboard/menu-handler",
             element: <MenuHandler />,
+          },
+          {
+            path: "dashboard/avatar-handler",
+            element: <AvatarHandler />,
           },
         ],
       },

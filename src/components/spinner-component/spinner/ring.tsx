@@ -1,4 +1,5 @@
 import React from "react";
+//import colorHashTable from "../../Text-color-Hashtable/colorHashTable";
 // import "./spinner.css";
 
 interface SpinnerProps {
@@ -7,7 +8,7 @@ interface SpinnerProps {
   color?: string;
 }
 
-const Spinner: React.FC<SpinnerProps> = ({
+const Ring: React.FC<SpinnerProps> = ({
   size = 50,
   thickness = 10,
   color = "text-gray-200",
@@ -144,4 +145,4 @@ const Spinner: React.FC<SpinnerProps> = ({
   );
 };
 
-export default Spinner;
+export default Ring;
