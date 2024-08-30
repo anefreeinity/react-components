@@ -1,3 +1,5 @@
+import DEFAULTPROPERTIES from "../../default-properties";
+
 export interface IMenuProperty {
   MenuBorderRadius: string;
   MenuShadow: string;
@@ -40,14 +42,14 @@ export class MenuProperty implements IMenuProperty {
   FolderActionItemStyle: string;
 
   constructor() {
-    this.MenuBorderRadius = "rounded-md";
+    this.MenuBorderRadius = DEFAULTPROPERTIES.BorderRadius;
     this.MenuShadow = "shadow-lg";
     this.MenuBackgroundColor = "bg-slate-800";
     this.MenuRingDesign = "ring-1 ring-black ring-opacity-5";
-    this.TransitionDuration = "duration-300";
+    this.TransitionDuration = DEFAULTPROPERTIES.TransitionDuration;
     this.MenuTranslate = "-translate-x-2 md:-translate-x-2.5";
     this.ItemBackgroundColor = "bg-slate-800";
-    this.ItemTextColor = "text-gray-200";
+    this.ItemTextColor = DEFAULTPROPERTIES.TextColor;
     this.ItemTextSize = "text-xs md:text-sm";
     this.ItemPaddingStyle = "px-2 md:px-3 py-2";
     this.ItemTextPosition = "text-left";
@@ -57,6 +59,6 @@ export class MenuProperty implements IMenuProperty {
     this.ItemBorderColor = "border-slate-700";
     this.LeftActionItemStyle = "pr-3 text-xs text-gray-200";
     this.RightActionItemStyle = "text-xs text-gray-200";
-    this.FolderActionItemStyle = "text-gray-200";
+    this.FolderActionItemStyle = DEFAULTPROPERTIES.TextColor;
   }
 }

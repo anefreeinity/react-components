@@ -11,7 +11,7 @@ export const DEFAULTPROPERTIES = {
   BorderRadius: "rounded-md",
   BackgroundOpacity: "bg-opacity-5",
   BackgroundOpacityOnError: "bg-opacity-30",
-  TextColor: "text-white",
+  TextColor: "text-gray-200",
   TextSize: "text-md",
   LabelColor: "text-slate-400",
   LabelColorOnFocus: "text-slate-300",
@@ -25,6 +25,21 @@ export const DEFAULTPROPERTIES = {
   ErrorMessagePosition: "left-0 top-full",
   TransitionDuration: "duration-300",
   Shadow: "shadow-md",
+};
+
+export const CHILD_BORDERS = {
+  firstChildBorder: {
+    sm: "rounded-t-sm",
+    md: "rounded-t-md",
+    lg: "rounded-t-lg",
+    xl: "rounded-t-xl",
+  },
+  lastChildBorder: {
+    sm: "rounded-b-sm",
+    md: "rounded-b-md",
+    lg: "rounded-b-lg",
+    xl: "rounded-b-xl",
+  },
 };
 
 export default DEFAULTPROPERTIES;

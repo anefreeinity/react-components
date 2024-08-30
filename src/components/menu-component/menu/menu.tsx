@@ -11,6 +11,7 @@ import {
   IconDefinition,
 } from "@fortawesome/free-solid-svg-icons";
 import { IMenuProperty, MenuProperty } from "./menu-property";
+import { CHILD_BORDERS } from "../../default-properties";
 
 interface MenuItem {
   label: string;
@@ -312,7 +313,10 @@ const SubMenu: React.FC<SubMenuProps> = ({
     setMenu(false, 100);
   };
 
-  const lastItem = menuProperty.MenuBorderRadius.split("-")[1] ?? "md";
+  const borderSize = (menuProperty.MenuBorderRadius.split("-")[1] ??
+    "md") as keyof typeof CHILD_BORDERS.firstChildBorder;
+  const firstChildBorderRadius = CHILD_BORDERS.firstChildBorder[borderSize];
+  const lastChildBorderRadius = CHILD_BORDERS.lastChildBorder[borderSize];
 
   return (
     <div ref={ref}>
@@ -325,9 +329,9 @@ const SubMenu: React.FC<SubMenuProps> = ({
         } ${menuProperty.ItemTextPosition} ${
           menuProperty.ItemBackgroundColorOnHover
         } 
-                ${index === 0 ? `rounded-t-${lastItem}` : ""} ${
+                ${index === 0 ? firstChildBorderRadius : ""} ${
           isLast
-            ? `rounded-b-${lastItem}`
+            ? lastChildBorderRadius
             : `border-b ${menuProperty.ItemBorderColor}`
         } ${
           isSelected && isChildrenOpen
