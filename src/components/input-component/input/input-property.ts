@@ -33,6 +33,7 @@ export interface IInputProperty {
   LabelColorOnFocus: string;
   LabelColorOnError: string;
   LabelFontSize: string;
+  LabelBackgroundColorOnFocus: string;
   LabelFontSizeOnFocus: string;
   Icon: IconDefinition | null;
   IconPosition: string;
@@ -45,6 +46,7 @@ export interface IInputProperty {
   ErrorMessageFontSize: string;
   ErrorMessagePosition: string;
   TransitionDuration: string;
+  InputPaddingStyle: string;
 }
 
 export class InputProperty implements IInputProperty {
@@ -67,6 +69,7 @@ export class InputProperty implements IInputProperty {
   LabelColor: string;
   LabelColorOnFocus: string;
   LabelColorOnError: string;
+  LabelBackgroundColorOnFocus: string;
   LabelFontSize: string;
   LabelFontSizeOnFocus: string;
   Icon: IconDefinition | null;
@@ -80,6 +83,7 @@ export class InputProperty implements IInputProperty {
   ErrorMessageFontSize: string;
   ErrorMessagePosition: string;
   TransitionDuration: string;
+  InputPaddingStyle: string;
 
   constructor(
     inputType: InputType = InputType.Text,
@@ -97,14 +101,15 @@ export class InputProperty implements IInputProperty {
     inputBoxBackgroundOpacityOnError: string = DEFAULTPROPERTIES.BackgroundOpacityOnError,
     inputBoxTextColor: string = DEFAULTPROPERTIES.TextColor,
     inputBoxTextSize: string = DEFAULTPROPERTIES.TextSize,
-    labelPosition: string = "left-3 top-2",
+    labelPosition: string = "left-3 top-2.5",
     labelColor: string = DEFAULTPROPERTIES.LabelColor,
     labelColorOnFocus: string = DEFAULTPROPERTIES.LabelColorOnFocus,
     labelColorOnError: string = DEFAULTPROPERTIES.LabelColorOnError,
+    labelBackgroundColorOnFocus: string = "bg-slate-900",
     labelFontSize: string = DEFAULTPROPERTIES.LabelFontSize,
     labelFontSizeOnFocus: string = "text-xs",
     icon: IconDefinition | null = null,
-    iconPosition: string = "right-3 top-5",
+    iconPosition: string = "right-3 top-3.5 md:top-5",
     iconColor: string = DEFAULTPROPERTIES.IconColor,
     iconColorOnFocus: string = DEFAULTPROPERTIES.IconColorOnFocus,
     iconFontSize: string = DEFAULTPROPERTIES.IconFontSize,
@@ -113,7 +118,8 @@ export class InputProperty implements IInputProperty {
     errorMessageColor: string = DEFAULTPROPERTIES.ErrorMessageColor,
     errorMessageFontSize: string = DEFAULTPROPERTIES.ErrorMessageFontSize,
     errorMessagePosition: string = DEFAULTPROPERTIES.ErrorMessagePosition,
-    transitionDuration: string = DEFAULTPROPERTIES.TransitionDuration
+    transitionDuration: string = DEFAULTPROPERTIES.TransitionDuration,
+    inputPaddingStyle: string = "px-3 pt-2 md:pt-6 pb-2 md:pb-2"
   ) {
     this.InputType = inputType;
     this.RequiredStarPosition = requiredStarPosition;
@@ -134,6 +140,7 @@ export class InputProperty implements IInputProperty {
     this.LabelColor = labelColor;
     this.LabelColorOnFocus = labelColorOnFocus;
     this.LabelColorOnError = labelColorOnError;
+    this.LabelBackgroundColorOnFocus = labelBackgroundColorOnFocus;
     this.LabelFontSize = labelFontSize;
     this.LabelFontSizeOnFocus = labelFontSizeOnFocus;
     this.Icon = icon;
@@ -147,5 +154,6 @@ export class InputProperty implements IInputProperty {
     this.ErrorMessageFontSize = errorMessageFontSize;
     this.ErrorMessagePosition = errorMessagePosition;
     this.TransitionDuration = transitionDuration;
+    this.InputPaddingStyle = inputPaddingStyle;
   }
 }
