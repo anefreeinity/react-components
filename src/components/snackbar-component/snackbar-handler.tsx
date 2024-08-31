@@ -103,7 +103,7 @@ const SnackbarHandler: React.FC = () => {
         <Snackbar
           type={SnackbarType.Error}
           title="Error"
-          message="This is a Error snackbar demo"
+          message="This is a Error snackbar demo..!"
           isOpen={isSnackbarErrorOpen}
           onClose={closeSnackbarError}
           // actionText="Undo"

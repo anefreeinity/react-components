@@ -38,6 +38,7 @@ export interface ISnackbarProperty {
   SnackbarBackgroundOpacity: string;
   Icon: IconDefinition | null;
   SnackbarTransitionDuration: string;
+  SnackbarWidth: string;
 }
 
 export class SnackbarProperty implements ISnackbarProperty {
@@ -64,31 +65,33 @@ export class SnackbarProperty implements ISnackbarProperty {
   SnackbarBackgroundOpacity: string;
   Icon: IconDefinition | null;
   SnackbarTransitionDuration: string;
+  SnackbarWidth: string;
 
   constructor(type: SnackbarType) {
     this.SnackbarType = SnackbarType.Info;
-    this.SnackbarPosition = "bottom-4 left-1/2";
+    this.SnackbarPosition = "bottom-16 md:bottom-4 left-1/2";
     this.SnackbarBackgroundColor = DEFAULTPROPERTIES.BackgroundColor;
     this.SnackbarBorderRadius = DEFAULTPROPERTIES.BorderRadius;
     this.SnackbarShadow = DEFAULTPROPERTIES.Shadow;
     this.SnackbarIconColor = DEFAULTPROPERTIES.IconColor;
     this.SnackbarIconFontSize = DEFAULTPROPERTIES.IconFontSize;
     this.SnackbarImageSize = "w-6 h-6";
-    this.SnackbarTitleSize = "text-lg";
+    this.SnackbarTitleSize = "text-sm md:text-lg";
     this.SnackbarTitleColor = DEFAULTPROPERTIES.TextColor;
-    this.SnackbarTitleFontWeight = "font-bold";
+    this.SnackbarTitleFontWeight = "font-semibold";
     this.SnackbarMessageSize = DEFAULTPROPERTIES.TextSize;
     this.SnackbarMessageColor = DEFAULTPROPERTIES.TextColor;
     this.SnackbarMessageFontWeight = "font-normal";
-    this.SnackbarActionSize = "text-md";
+    this.SnackbarActionSize = "text-xs md:text-md";
     this.SnackbarActionColor = DEFAULTPROPERTIES.TextColor;
-    this.SnackbarActionFontWeight = "font-bold";
+    this.SnackbarActionFontWeight = "font-semibold";
     this.SnackbarActionColorOnHover = "hover:text-blue-700";
     this.SnackbarBorderWidth = "border";
     this.SnackbarBorderColor = DEFAULTPROPERTIES.BorderColor;
     this.SnackbarBackgroundOpacity = DEFAULTPROPERTIES.BackgroundOpacity;
     this.Icon = null;
     this.SnackbarTransitionDuration = DEFAULTPROPERTIES.TransitionDuration;
+    this.SnackbarWidth = "w-10/12 md:w-auto lg:w-auto";
 
     switch (type) {
       case SnackbarType.Info:
@@ -111,15 +114,15 @@ export class SnackbarProperty implements ISnackbarProperty {
   initializeInfo() {
     this.SnackbarBackgroundColor = "bg-gray-800";
     this.SnackbarBackgroundOpacity = "bg-opacity-10";
-    this.SnackbarIconFontSize = "text-xl";
+    this.SnackbarIconFontSize = "text-md md:text-xl";
     this.SnackbarImageSize = "w-10 h-10";
-    this.SnackbarTitleSize = "text-md";
+    this.SnackbarTitleSize = "text-sm md:text-md";
     this.SnackbarTitleColor = "text-gray-200";
     this.SnackbarTitleFontWeight = "font-semibold";
-    this.SnackbarMessageSize = "text-sm";
+    this.SnackbarMessageSize = "text-xs md:text-sm";
     this.SnackbarMessageColor = "text-gray-300";
     this.SnackbarMessageFontWeight = "font-normal";
-    this.SnackbarActionSize = "text-md";
+    this.SnackbarActionSize = "text-sm md:text-md";
     this.SnackbarActionColor = "text-gray-300";
     this.SnackbarActionFontWeight = "font-bold";
     this.SnackbarActionColorOnHover = "hover:text-gray-100";
@@ -129,15 +132,15 @@ export class SnackbarProperty implements ISnackbarProperty {
   initializeSuccess() {
     this.SnackbarBackgroundColor = "bg-green-500";
     this.SnackbarBackgroundOpacity = "bg-opacity-10";
-    this.SnackbarIconFontSize = "text-xl";
+    this.SnackbarIconFontSize = "text-md md:text-xl";
     this.SnackbarImageSize = "w-10 h-10";
-    this.SnackbarTitleSize = "text-md";
+    this.SnackbarTitleSize = "text-sm md:text-md";
     this.SnackbarTitleColor = "text-green-200";
     this.SnackbarTitleFontWeight = "font-semibold";
-    this.SnackbarMessageSize = "text-sm";
+    this.SnackbarMessageSize = "text-xs md:text-sm";
     this.SnackbarMessageColor = "text-green-300";
     this.SnackbarMessageFontWeight = "font-normal";
-    this.SnackbarActionSize = "text-md";
+    this.SnackbarActionSize = "text-sm md:text-md";
     this.SnackbarActionColor = "text-green-300";
     this.SnackbarActionFontWeight = "font-bold";
     this.SnackbarActionColorOnHover = "hover:text-green-100";
@@ -149,15 +152,15 @@ export class SnackbarProperty implements ISnackbarProperty {
   initializeWarning() {
     this.SnackbarBackgroundColor = "bg-yellow-500";
     this.SnackbarBackgroundOpacity = "bg-opacity-10";
-    this.SnackbarIconFontSize = "text-xl";
+    this.SnackbarIconFontSize = "text-md md:text-xl";
     this.SnackbarImageSize = "w-10 h-10";
-    this.SnackbarTitleSize = "text-md";
+    this.SnackbarTitleSize = "text-sm md:text-md";
     this.SnackbarTitleColor = "text-yellow-200";
     this.SnackbarTitleFontWeight = "font-semibold";
-    this.SnackbarMessageSize = "text-sm";
+    this.SnackbarMessageSize = "text-xs md:text-sm";
     this.SnackbarMessageColor = "text-yellow-300";
     this.SnackbarMessageFontWeight = "font-normal";
-    this.SnackbarActionSize = "text-md";
+    this.SnackbarActionSize = "text-sm md:text-md";
     this.SnackbarActionColor = "text-yellow-300";
     this.SnackbarActionFontWeight = "font-bold";
     this.SnackbarActionColorOnHover = "hover:text-yellow-100";
@@ -169,15 +172,15 @@ export class SnackbarProperty implements ISnackbarProperty {
   initializeError() {
     this.SnackbarBackgroundColor = "bg-red-500";
     this.SnackbarBackgroundOpacity = "bg-opacity-10";
-    this.SnackbarIconFontSize = "text-xl";
+    this.SnackbarIconFontSize = "text-md md:text-xl";
     this.SnackbarImageSize = "w-10 h-10";
-    this.SnackbarTitleSize = "text-md";
+    this.SnackbarTitleSize = "text-sm md:text-md";
     this.SnackbarTitleColor = "text-red-200";
     this.SnackbarTitleFontWeight = "font-semibold";
-    this.SnackbarMessageSize = "text-sm";
+    this.SnackbarMessageSize = "text-xs md:text-sm";
     this.SnackbarMessageColor = "text-red-300";
     this.SnackbarMessageFontWeight = "font-normal";
-    this.SnackbarActionSize = "text-md";
+    this.SnackbarActionSize = "text-sm md:text-md";
     this.SnackbarActionColor = "text-red-300";
     this.SnackbarActionFontWeight = "font-bold";
     this.SnackbarActionColorOnHover = "hover:text-red-100";

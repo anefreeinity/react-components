@@ -50,9 +50,13 @@ const Snackbar: React.FC<SnackbarProps> = ({
   } ${property.SnackbarBackgroundOpacity}
   ${
     property.SnackbarPosition
-  } transform -translate-x-1/2 max-w-sm md:max-w-md lg:max-w-lg w-3/4 md:w-auto pr-4 ${
-    title ? "pl-3" : "pl-2"
-  } py-2 ${property.SnackbarBackgroundColor} ${property.SnackbarBorderRadius} ${
+  } transform -translate-x-1/2 max-w-sm md:max-w-md lg:max-w-lg ${
+    property.SnackbarWidth
+  } pr-2 md:pr-4 ${
+    title ? `${image ? `pl-1 md:pl-2` : `pl-2 md:pl-3`}` : "pl-1 md:pl-2"
+  } py-1 md:py-2 ${property.SnackbarBackgroundColor} ${
+    property.SnackbarBorderRadius
+  } ${
     property.SnackbarShadow
   } flex items-center justify-between transition-all ${
     property.SnackbarTransitionDuration
