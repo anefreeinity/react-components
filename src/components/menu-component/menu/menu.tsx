@@ -151,7 +151,7 @@ const Menu: React.FC<MenuProps> = ({
       };
       setMenuPosition(menu);
     }
-  }, [menuRef, menuActionRef, isOpen]);
+  }, [menuRef, menuActionRef]);
 
   useEffect(() => {
     updateMenuPosition();

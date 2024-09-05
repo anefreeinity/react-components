@@ -117,16 +117,44 @@ const DashBoard: React.FC = () => {
 
   const menuItems = [
     {
-      label: "Spinner 1",
+      label: "Dot Pulse",
       action: () => {
+        navigate("dashboard/dot-pulse-handler");
         setSpinnerDropdownOpen(false);
-        navigate("dashboard/spinner-handler");
       },
     },
     {
-      label: "Spinner 2",
+      label: "Dot Spinner",
       action: () => {
-        navigate("dashboard/spinner-handler2");
+        navigate("dashboard/dot-spinner-handler");
+        setSpinnerDropdownOpen(false);
+      },
+    },
+    {
+      label: "Dot Stream",
+      action: () => {
+        navigate("dashboard/dot-stream-handler");
+        setSpinnerDropdownOpen(false);
+      },
+    },
+    {
+      label: "Line Spinner",
+      action: () => {
+        navigate("dashboard/line-spinner-handler");
+        setSpinnerDropdownOpen(false);
+      },
+    },
+    {
+      label: "Ring",
+      action: () => {
+        setSpinnerDropdownOpen(false);
+        navigate("dashboard/ring-handler");
+      },
+    },
+    {
+      label: "Tailspin",
+      action: () => {
+        navigate("dashboard/tailspin-handler");
         setSpinnerDropdownOpen(false);
       },
     },
@@ -205,7 +233,7 @@ const DashBoard: React.FC = () => {
                 property={snackbarButton}
                 className="whitespace-nowrap text-ellipsis"
                 onClick={() => {
-                  navigate("dashboard/spinner-handler");
+                  navigate("dashboard/ring-handler");
                   setSpinnerDropdownOpen(true);
                 }}
               >
@@ -221,6 +249,15 @@ const DashBoard: React.FC = () => {
             className="whitespace-nowrap text-ellipsis"
           >
             Menu Examples
+          </Button>
+        </NavLink>
+
+        <NavLink to="dashboard/avatar-handler">
+          <Button
+            property={snackbarButton}
+            className="whitespace-nowrap text-ellipsis"
+          >
+            Avatar Examples
           </Button>
         </NavLink>
       </div>
