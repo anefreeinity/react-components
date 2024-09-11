@@ -32,7 +32,7 @@ const AutocompleteHandler: React.FC = () => {
   });
 
   return (
-    <div className="absolute top-60 right-1/2 translate-x-1/2 bg-slate-900">
+    <div className="absolute top-52 md:top-60 right-1/2 translate-x-1/2 bg-slate-900 w-10/12">
       <Autocomplete
         filteredSuggestions={filteredSuggestions}
         handleInputChange={handleInputChange}

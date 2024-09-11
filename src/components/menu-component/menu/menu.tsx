@@ -14,7 +14,7 @@ import { IMenuProperty, MenuProperty } from "./menu-property";
 import { CHILD_BORDERS } from "../../default-properties";
 
 interface MenuItem {
-  label: string;
+  label?: string;
   leftActionItem?: IconDefinition | JSX.Element;
   rightActionItem?: IconDefinition | JSX.Element;
   children?: MenuItem[];
@@ -322,7 +322,7 @@ const SubMenu: React.FC<SubMenuProps> = ({
     <div ref={ref}>
       <button
         key={index}
-        className={`flex items-center justify-between ${
+        className={`flex items-center justify-start ${
           menuProperty.ItemTextColor
         } ${menuProperty.ItemPaddingStyle} ${menuProperty.ItemTextSize} ${
           menuProperty.ItemWidth

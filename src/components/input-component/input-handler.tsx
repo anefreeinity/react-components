@@ -1,4 +1,4 @@
-import { useState, ChangeEvent } from "react";
+import { useState, ChangeEvent, useEffect } from "react";
 import Input from "./input/input";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { InputProperty, InputType } from "./input/input-property";
@@ -6,13 +6,17 @@ import { InputProperty, InputType } from "./input/input-property";
 const InputHandler: React.FC = () => {
   const [emailValue, setEmailValue] = useState<string>("");
   const [passwordValue, setPasswordValue] = useState<string>("");
+  const [confirmPasswordValue, setConfirmPasswordValue] = useState<string>("");
+  const [hasError, setHasError] = useState<boolean>(false);
 
   const emailProperty = new InputProperty();
   const passwordProperty = new InputProperty();
+  const confirmPasswordProperty = new InputProperty();
 
   emailProperty.InputType = InputType.Email;
   emailProperty.Icon = faEnvelope;
   passwordProperty.InputType = InputType.Password;
+  confirmPasswordProperty.InputType = InputType.Password;
 
   const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
     setEmailValue(e.target.value);
@@ -21,6 +25,18 @@ const InputHandler: React.FC = () => {
   const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
     setPasswordValue(e.target.value);
   };
+
+  const handleConfirmPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setConfirmPasswordValue(e.target.value);
+  };
+
+  useEffect(() => {
+    if (confirmPasswordValue && passwordValue !== confirmPasswordValue) {
+      setHasError(true);
+    } else {
+      setHasError(false);
+    }
+  }, [passwordValue, confirmPasswordValue]);
 
   return (
     <div className="w-full">
@@ -38,7 +54,7 @@ const InputHandler: React.FC = () => {
         />
       </div>
 
-      <div>
+      <div className="pb-12">
         <Input
           id="password-input"
           type="password"
@@ -51,6 +67,20 @@ const InputHandler: React.FC = () => {
           label="Password"
           isRequired={true}
           property={passwordProperty}
+        />
+      </div>
+
+      <div>
+        <Input
+          id="confirm-password-input"
+          type="password"
+          value={confirmPasswordValue}
+          onChange={handleConfirmPasswordChange}
+          validationMessage="Passwords do not match."
+          label="Confirm Password"
+          isRequired={true}
+          hasError={hasError}
+          property={confirmPasswordProperty}
         />
       </div>
     </div>

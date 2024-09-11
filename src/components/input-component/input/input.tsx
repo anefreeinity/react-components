@@ -20,7 +20,7 @@ interface InputProps {
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   onFocus?: (e: FocusEvent<HTMLInputElement>) => void;
   onBlur?: (e: FocusEvent<HTMLInputElement>) => void;
-  validationPattern?: RegExp;
+  validationPattern?: RegExp | null;
   validationMessage?: string;
   isRequired?: boolean;
   hasError?: boolean;
@@ -56,15 +56,44 @@ const Input: React.FC<InputProps> = ({
   const [isFocused, setIsFocused] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [elementWidth, setElementWidth] = useState<number>(0);
   const inputRef = useRef<HTMLInputElement>(null);
+  const elementRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (isFocused && hasError) {
+    const current = elementRef.current;
+    if (current) {
+      const resizeObserver = new ResizeObserver((entries) => {
+        for (let entry of entries) {
+          setElementWidth(entry.contentRect.width);
+        }
+      });
+
+      resizeObserver.observe(elementRef.current);
+
+      return () => {
+        resizeObserver.unobserve(current);
+      };
+    }
+  }, []);
+
+  useEffect(() => {
+    if (validationPattern && isFocused && hasError) {
       if (hasError) {
         validationMessage && setErrorMessage(validationMessage);
       }
     }
-  }, [validationMessage, isFocused, hasError]);
+
+    if (!validationPattern) {
+      if (hasError) {
+        setErrorMessage(validationMessage);
+        setError(true);
+      } else {
+        setErrorMessage("");
+        setError(false);
+      }
+    }
+  }, [validationMessage, isFocused, hasError, validationPattern, setError]);
 
   useEffect(() => {
     const handleAutofill = (e: AnimationEvent) => {
@@ -89,7 +118,13 @@ const Input: React.FC<InputProps> = ({
   }, []);
 
   const handleValidation = (e: FocusEvent<HTMLInputElement>) => {
-    if (validationPattern && !validationPattern.test(e.target.value)) {
+    if (!validationPattern) return;
+
+    if (
+      validationPattern &&
+      validationPattern &&
+      !validationPattern.test(e.target.value)
+    ) {
       setErrorMessage(validationMessage);
       setError(true);
     } else {
@@ -129,7 +164,7 @@ const Input: React.FC<InputProps> = ({
   } ${className}`;
 
   return (
-    <div className="relative flex flex-col w-full">
+    <div className="relative flex flex-col w-full" ref={elementRef}>
       <style>
         {`
           @keyframes onAutoFillStart {
@@ -198,7 +233,11 @@ const Input: React.FC<InputProps> = ({
         />
       )}
       {property.Icon && <Icon property={property} />}
-      <ErrorRenderer show={!!errorMessage} property={property}>
+      <ErrorRenderer
+        show={!!errorMessage}
+        width={elementWidth}
+        property={property}
+      >
         {errorMessage}
       </ErrorRenderer>
     </div>

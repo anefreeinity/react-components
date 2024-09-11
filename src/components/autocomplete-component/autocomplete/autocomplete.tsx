@@ -115,7 +115,7 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
     <div className="relative w-full max-w-sm mx-auto" ref={containerRef}>
       <div className="relative flex items-center">
         <FontAwesomeIcon
-          className="absolute left-3 text-gray-400"
+          className="absolute left-2.5 text-gray-400"
           icon={faSearch}
         />
         <input
@@ -127,13 +127,13 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
               : defaultHandleInputChange(e)
           }
           onClick={defaultHandleInputClick}
-          className="w-full pl-10 pr-10 rounded-md border bg-slate-800 border-slate-600 py-1 px-4 text-gray-200 focus:outline-none focus:border-blue-500"
+          className="w-full pl-8 pr-8 rounded-md border bg-slate-800 border-slate-600 py-1 px-4 text-gray-200 focus:outline-none focus:border-blue-500 text-md"
           placeholder={placeholder}
         />
         {query && (
           <FontAwesomeIcon
             onClick={clearQuery}
-            className="absolute right-3 text-gray-400 cursor-pointer hover:text-gray-200"
+            className="absolute right-2.5 text-gray-400 cursor-pointer hover:text-gray-200 text-md"
             icon={faTimesCircle}
           />
         )}
