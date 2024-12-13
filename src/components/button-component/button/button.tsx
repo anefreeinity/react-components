@@ -6,7 +6,7 @@ import {
   IButtonProperty,
   IconLeftOrRight,
 } from "./button-property";
-import Spinner from "../../spinner-component/spinner/spinner";
+import Spinner from "../../spinner-component/spinner/ring";
 
 // const spinnerStyle = {
 //   border: "2px solid rgba(255, 255, 255, 0.2)",
